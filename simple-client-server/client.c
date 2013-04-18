@@ -14,16 +14,14 @@
 
 #define DEBUG
 
-
-
 int main (int argc, char **argv)
 {
 
     int res;
-    //check if user supplied uri to trace
+    //check if user supplied uri
     if(argv[1] == NULL)
     {
-        printf("Usage: trace URI\n");
+        printf("Usage: ./client URI\n");
         exit(1);
     }
  
@@ -56,16 +54,15 @@ int main (int argc, char **argv)
 
 
     
-    //allocate memory for trace URI = /trace/user_input/random_number
-    char *URI = (char *) malloc(sizeof(char)* argv_length+1); //find size of rand
+    //allocate memory for URI
+    char *URI = (char *) malloc(sizeof(char)* argv_length+1);
     if(URI == NULL)
     {
         fprintf(stderr, "Can not allocate memory for URI\n");
         exit(1);
     }
     
-    //put together the trace URI, add a random number to end of URI
-    srand ((unsigned int)time (NULL)*getpid());
+    //put together the URI
     sprintf(URI, "%s%s", argv[1]+skip, slash);
 
 
@@ -122,9 +119,9 @@ int main (int argc, char **argv)
     res = ccn_get(ccn, ccnb, NULL, timeout_ms, resultbuf, &pcobuf, NULL, 0);
     if (res == -1)
     {
-        fprintf(stderr, "Did not receive answer for trace to %s\n", argv[1]);
+        fprintf(stderr, "Did not receive answer %s\n", argv[1]);
 	#ifdef DEBUG
-            fprintf(stderr, "Did not receive answer for trace to URI: %s\n", URI);
+            fprintf(stderr, "Did not receive answer : %s\n", URI);
         #endif
         exit(1);
     }
@@ -139,9 +136,9 @@ int main (int argc, char **argv)
     //check if received some data
     if(length == 0)
     {    
-        fprintf(stderr, "Received empty answer for trace to %s\n", argv[1]);
+        fprintf(stderr, "Received empty answer for %s\n", argv[1]);
 	    #ifdef DEBUG
-            fprintf(stderr, "Received empty answer for trace to URI: %s\n", URI);
+            fprintf(stderr, "Received empty answer for : %s\n", URI);
         #endif
         exit(1);
     }

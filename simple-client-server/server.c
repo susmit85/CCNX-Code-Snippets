@@ -96,8 +96,12 @@ enum ccn_upcall_res incoming_interest(struct ccn_closure *selfp,
         //get the interest name from incoming packet      
         
         construct_trace_response(info->h, data, info->interest_ccnb, info->pi, MYMESSAGE, strlen(MYMESSAGE));
-        printf("Sending binary content of length: %Zu \n", data->length);
+        printf("Sending Hello World\n");
         res = ccn_put(info->h, data->buf, data->length);
+        if(res < 0)
+        {
+            printf("Can not send reply \n");
+        }
         break;
 
    default:
